@@ -32,13 +32,17 @@ var p_accum = 0
 var scene_idx = 0
 
 func _process(delta: float) -> void:
+	
+	if Input.is_action_just_pressed("toggle_menu"):
+		self.visible = !self.visible
+	
 	var files = dir.get_files()
 	if last_files != files:
 		_reset_scene_entries()
 	last_files = files
 	
-	p_accum += 1
-	if p_accum == 50:
+	p_accum += delta
+	if p_accum >= 1:
 		clean_zombie()
 		p_accum = 0
 		if is_server_running():
@@ -48,11 +52,7 @@ func _process(delta: float) -> void:
 			restart_server()
 
 
-func _ready() -> void:
-	var instance = visual_display.instantiate()
-	add_child(instance)
-	visual_display_instance = instance
-	
+func start() -> void:	
 	platform = OS.get_name()
 	# TODO: Windows support
 	if platform != "Linux":
@@ -165,6 +165,12 @@ func _reset_scene_entries():
 				var new_scene = load("res://assets/scenes/vis_scenes/" + file)
 				scenes[file] = new_scene
 
+func _fullscreen_toggled(toggled_on: bool) -> void:
+	if toggled_on:
+		DisplayServer.window_set_mode(DisplayServer.WINDOW_MODE_EXCLUSIVE_FULLSCREEN)
+	else:
+		DisplayServer.window_set_mode(DisplayServer.WINDOW_MODE_WINDOWED)
+
 
 func _shuffle_mode_toggled(toggled_on: bool) -> void:
 	shuffle_mode = toggled_on
@@ -191,7 +197,7 @@ func _on_port_text_changed(new_text: String) -> void:
 		port_error.text = ""
 		port = new_text.to_int()
 		restart_server()
-		OscClient.port = port
+		OscClient.update_port(port)
 	else:
 		port_error.text = "INVALID"
 

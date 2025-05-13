@@ -3,31 +3,30 @@
 [ext_resource type="Script" uid="uid://djrdv21o3pwmx" path="res://assets/scripts/gui/main_gui.gd" id="1_egeds"]
 [ext_resource type="Texture2D" uid="uid://b0103x8bhc84m" path="res://assets/sprites/Offline.tres" id="2_egeds"]
 
-[node name="MainGui" type="Control"]
-layout_mode = 3
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
+[node name="MainGui" type="MarginContainer"]
+custom_minimum_size = Vector2(500, 500)
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -69.5
+offset_top = -16.0
+offset_right = 69.5
+offset_bottom = 16.0
 grow_horizontal = 2
 grow_vertical = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
 script = ExtResource("1_egeds")
 
 [node name="Panel" type="ColorRect" parent="."]
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
+visible = false
+layout_mode = 2
 color = Color(0.236552, 0.434864, 0.548829, 1)
 
 [node name="VBoxContainer" type="VBoxContainer" parent="."]
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
+layout_mode = 2
 
 [node name="TabContainer" type="TabContainer" parent="VBoxContainer"]
 layout_mode = 2
@@ -216,6 +215,28 @@ layout_mode = 2
 layout_mode = 2
 theme_override_colors/font_color = Color(1, 0, 0, 1)
 
+[node name="Label10" type="Label" parent="VBoxContainer/TabContainer/Settings/VBoxContainer/Visualization Settings/Visualization Settings"]
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+text = "Fullscreen"
+
+[node name="Hbox2" type="HBoxContainer" parent="VBoxContainer/TabContainer/Settings/VBoxContainer/Visualization Settings/Visualization Settings"]
+layout_mode = 2
+
+[node name="MarginContainer" type="MarginContainer" parent="VBoxContainer/TabContainer/Settings/VBoxContainer/Visualization Settings/Visualization Settings/Hbox2"]
+layout_mode = 2
+
+[node name="Color" type="ColorRect" parent="VBoxContainer/TabContainer/Settings/VBoxContainer/Visualization Settings/Visualization Settings/Hbox2/MarginContainer"]
+layout_mode = 2
+color = Color(0.668051, 0.732712, 0.0804073, 1)
+
+[node name="CheckBox" type="CheckBox" parent="VBoxContainer/TabContainer/Settings/VBoxContainer/Visualization Settings/Visualization Settings/Hbox2/MarginContainer"]
+layout_mode = 2
+
+[node name="Label5" type="Label" parent="VBoxContainer/TabContainer/Settings/VBoxContainer/Visualization Settings/Visualization Settings"]
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 0, 0, 1)
+
 [node name="Scene Select" type="Control" parent="VBoxContainer/TabContainer"]
 visible = false
 layout_mode = 2
@@ -242,16 +263,9 @@ size_flags_horizontal = 3
 size_flags_vertical = 3
 
 [node name="HBoxContainer" type="HBoxContainer" parent="."]
-layout_mode = 1
-anchors_preset = 3
-anchor_left = 1.0
-anchor_top = 1.0
-anchor_right = 1.0
-anchor_bottom = 1.0
-offset_left = -132.0
-offset_top = -25.0
-grow_horizontal = 0
-grow_vertical = 0
+layout_mode = 2
+size_flags_horizontal = 8
+size_flags_vertical = 8
 
 [node name="Label" type="Label" parent="HBoxContainer"]
 layout_mode = 2
@@ -269,4 +283,5 @@ stretch_mode = 2
 [connection signal="text_changed" from="VBoxContainer/TabContainer/Settings/VBoxContainer/Visualization Settings/Visualization Settings/SceneChangeDelay" to="." method="_on_scene_change_delay_text_changed"]
 [connection signal="text_changed" from="VBoxContainer/TabContainer/Settings/VBoxContainer/Visualization Settings/Visualization Settings/SceneChangeVar" to="." method="_on_scene_change_var_text_changed"]
 [connection signal="toggled" from="VBoxContainer/TabContainer/Settings/VBoxContainer/Visualization Settings/Visualization Settings/Hbox/MarginContainer/CheckBox" to="." method="_shuffle_mode_toggled"]
+[connection signal="toggled" from="VBoxContainer/TabContainer/Settings/VBoxContainer/Visualization Settings/Visualization Settings/Hbox2/MarginContainer/CheckBox" to="." method="_fullscreen_toggled"]
 [connection signal="timeout" from="SceneSwitcher" to="." method="_on_scene_switcher_timeout"]

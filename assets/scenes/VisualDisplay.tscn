@@ -1,15 +1,9 @@
-[gd_scene load_steps=2 format=3 uid="uid://b074kj2mronxy"]
+[gd_scene load_steps=3 format=3 uid="uid://b074kj2mronxy"]
 
 [ext_resource type="Script" uid="uid://b7mjjsvvm6mps" path="res://assets/scripts/visual_display.gd" id="1_32dej"]
+[ext_resource type="PackedScene" uid="uid://blvfhpohw7q5i" path="res://assets/scenes/gui/MainGui.tscn" id="2_j6dt5"]
 
-[node name="VisualDisplay" type="Window"]
-mode = 3
-initial_position = 1
-size = Vector2i(500, 500)
-content_scale_aspect = 1
-script = ExtResource("1_32dej")
-
-[node name="PostProcessLayer" type="SubViewportContainer" parent="."]
+[node name="PostProcessLayer" type="SubViewportContainer"]
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
@@ -18,8 +12,19 @@ grow_vertical = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 stretch = true
+script = ExtResource("1_32dej")
 
-[node name="SceneLayer" type="SubViewport" parent="PostProcessLayer"]
+[node name="SceneLayer" type="SubViewport" parent="."]
 handle_input_locally = false
-size = Vector2i(500, 500)
+size = Vector2i(960, 540)
 render_target_update_mode = 4
+
+[node name="MainGui" parent="." instance=ExtResource("2_j6dt5")]
+visible = false
+layout_mode = 2
+
+[node name="Label" type="Label" parent="."]
+layout_mode = 2
+theme_override_font_sizes/font_size = 50
+text = "Esc - Open Settings 
+H - Hide Hint"

@@ -20,13 +20,19 @@ var spectral_centroid = 0
 signal message_received(address, value, time)
 var thread: Thread
 
+var terminated: bool = false
+
+func update_port(port):
+	server.stop()
+	server.listen(port)
+
 func _ready():
 	server.listen(port)
 	thread = Thread.new()
 	thread.start(_thread_function.bind())
 
 func _thread_function():
-	while(true):
+	while(!terminated):
 		server.poll()
 		if server.is_connection_available():
 			var peer: PacketPeerUDP = server.take_connection()

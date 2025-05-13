@@ -108,7 +108,7 @@ vec3 iLerp(in vec3 a, in vec3 b, in float x)
 
 void fragment()
 {
-	vec2 iResolution =  1.0 / SCREEN_PIXEL_SIZE; // for copy-paste
+	vec2 iResolution =  1.0 / SCREEN_PIXEL_SIZE / 100.; // for copy-paste
 //	vec2 q = FRAGCOORD.xy/iResolution.xy;
 	vec2 q = UV;
 //    vec2 p = (FRAGCOORD.xy - 0.5*iResolution.xy)/iResolution.y;

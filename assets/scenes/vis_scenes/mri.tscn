@@ -1,0 +1,190 @@
+[gd_scene load_steps=16 format=3 uid="uid://cwj0fjv7suk70"]
+
+[ext_resource type="Script" uid="uid://7lbiftwo0ly" path="res://assets/scripts/scene_scripts/mri.gd" id="1_q8uo8"]
+[ext_resource type="PackedScene" uid="uid://dwik546cd41hv" path="res://assets/models/vhf_skull_point_cloud/scene.gltf" id="2_r3ntq"]
+[ext_resource type="PackedScene" uid="uid://balpgb8w2h072" path="res://assets/models/brain_point_cloud/brain.tscn" id="3_q8uo8"]
+[ext_resource type="Shader" uid="uid://cluw1qo6o2kns" path="res://assets/shaders/gb.gdshader" id="4_ybnpg"]
+[ext_resource type="PackedScene" uid="uid://37dphm24uply" path="res://assets/models/dna/fbx.fbx" id="5_ck1ld"]
+[ext_resource type="Shader" uid="uid://dirx07k1o4sxe" path="res://assets/shaders/dna.gdshader" id="6_l4xop"]
+
+[sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_yp12i"]
+sky_top_color = Color(0, 0, 0, 1)
+sky_horizon_color = Color(0, 0, 0, 1)
+ground_bottom_color = Color(0, 0, 0, 1)
+ground_horizon_color = Color(0, 0, 0, 1)
+
+[sub_resource type="Sky" id="Sky_8c8ax"]
+sky_material = SubResource("ProceduralSkyMaterial_yp12i")
+
+[sub_resource type="Environment" id="Environment_rc7v1"]
+background_mode = 2
+sky = SubResource("Sky_8c8ax")
+ambient_light_source = 2
+ambient_light_color = Color(0, 0.60054, 0.740515, 1)
+ambient_light_energy = 11.65
+tonemap_mode = 2
+glow_enabled = true
+glow_intensity = 8.0
+glow_strength = 0.15
+glow_bloom = 1.0
+glow_blend_mode = 1
+glow_hdr_threshold = 0.0
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_q8uo8"]
+shader = ExtResource("4_ybnpg")
+shader_parameter/pallette_white = Color(0.988235, 0.980392, 0.988235, 1)
+shader_parameter/pallette_light_grey = Color(0.67451, 0.14902, 0.141176, 1)
+shader_parameter/pallette_dark_grey = Color(0.92549, 0.541176, 0.54902, 1)
+shader_parameter/pallette_black = Color(0.0156863, 0.0941176, 0.0156863, 1)
+
+[sub_resource type="Gradient" id="Gradient_q8uo8"]
+offsets = PackedFloat32Array(0.416667)
+colors = PackedColorArray(0, 0, 0, 1)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_r3ntq"]
+gradient = SubResource("Gradient_q8uo8")
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_kr3fq"]
+render_priority = 0
+shader = ExtResource("6_l4xop")
+shader_parameter/offset = 0.0
+shader_parameter/color = Color(1, 1, 1, 1)
+shader_parameter/src_tex = SubResource("GradientTexture1D_r3ntq")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_q8uo8"]
+emission_shape = 1
+emission_sphere_radius = 11.97
+gravity = Vector3(0, 0, 0)
+radial_accel_min = -1.0
+radial_accel_max = 0.999998
+tangential_accel_min = -1.0
+tangential_accel_max = 0.999998
+damping_min = 0.1
+damping_max = 0.1
+turbulence_enabled = true
+
+[sub_resource type="PointMesh" id="PointMesh_r3ntq"]
+
+[node name="mri" type="Node3D"]
+script = ExtResource("1_q8uo8")
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
+transform = Transform3D(-0.866025, -0.433013, 0.25, 0, 0.5, 0.866025, -0.5, 0.75, -0.433013, 0, 0, 0)
+shadow_enabled = true
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("Environment_rc7v1")
+
+[node name="Camera3D" type="Camera3D" parent="."]
+transform = Transform3D(0.544552, -0.455871, -0.704021, 0.0887773, 0.866005, -0.492091, 0.834016, 0.205468, 0.512056, -0.457369, 0.0975797, 0.385027)
+current = true
+fov = 90.0
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+layer = 2
+
+[node name="head_anchor" type="Node3D" parent="CanvasLayer"]
+transform = Transform3D(0.91508, -0.403269, -0.00149134, 0.401599, 0.911614, -0.0876299, 0.036698, 0.0795894, 0.996152, -0.146992, 0.0955231, 0.357586)
+
+[node name="head" type="Node3D" parent="CanvasLayer/head_anchor"]
+
+[node name="skull" parent="CanvasLayer/head_anchor/head" instance=ExtResource("2_r3ntq")]
+transform = Transform3D(1.7, 0, 0, 0, 1.7, 0, 0, 0, 1.7, -0.013987, -0.0465284, 0.0297681)
+
+[node name="Sketchfab_model" parent="CanvasLayer/head_anchor/head/skull" index="0"]
+transform = Transform3D(-0.00107686, -2.12257e-05, 0, 4.71305e-21, -2.39112e-19, 0.00107707, -2.12257e-05, 0.00107686, 2.39158e-19, 0.455584, -1.65709, -0.467039)
+
+[node name="Object_2" parent="CanvasLayer/head_anchor/head/skull/Sketchfab_model/Geode" index="0"]
+layers = 16
+
+[node name="Object_3" parent="CanvasLayer/head_anchor/head/skull/Sketchfab_model/Geode" index="1"]
+layers = 16
+
+[node name="Object_4" parent="CanvasLayer/head_anchor/head/skull/Sketchfab_model/Geode" index="2"]
+layers = 16
+
+[node name="Object_5" parent="CanvasLayer/head_anchor/head/skull/Sketchfab_model/Geode" index="3"]
+layers = 16
+
+[node name="Object_6" parent="CanvasLayer/head_anchor/head/skull/Sketchfab_model/Geode" index="4"]
+layers = 16
+
+[node name="Object_7" parent="CanvasLayer/head_anchor/head/skull/Sketchfab_model/Geode" index="5"]
+layers = 16
+
+[node name="Object_8" parent="CanvasLayer/head_anchor/head/skull/Sketchfab_model/Geode" index="6"]
+layers = 16
+
+[node name="Object_9" parent="CanvasLayer/head_anchor/head/skull/Sketchfab_model/Geode" index="7"]
+layers = 16
+
+[node name="Object_10" parent="CanvasLayer/head_anchor/head/skull/Sketchfab_model/Geode" index="8"]
+layers = 16
+
+[node name="Object_11" parent="CanvasLayer/head_anchor/head/skull/Sketchfab_model/Geode" index="9"]
+layers = 16
+
+[node name="brain" type="Node3D" parent="CanvasLayer/head_anchor/head"]
+transform = Transform3D(-4.09782e-08, 2.00234e-08, 1, 0, 1, -7.45058e-09, -1, 7.45058e-09, -4.84288e-08, 0.335064, 0.129366, 0.403713)
+
+[node name="Sketchfab_Scene" parent="CanvasLayer/head_anchor/head/brain" instance=ExtResource("3_q8uo8")]
+
+[node name="ColorRect" type="ColorRect" parent="CanvasLayer"]
+visible = false
+light_mask = 2
+visibility_layer = 2
+material = SubResource("ShaderMaterial_q8uo8")
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="dna" parent="." instance=ExtResource("5_ck1ld")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.0397837, -4.49573, -0.833562)
+
+[node name="DNA_003" parent="dna" index="0"]
+layers = 4
+surface_material_override/0 = SubResource("ShaderMaterial_kr3fq")
+
+[node name="DNA_011" parent="dna" index="1"]
+layers = 4
+surface_material_override/0 = SubResource("ShaderMaterial_kr3fq")
+
+[node name="DNA_005" parent="dna" index="2"]
+layers = 4
+surface_material_override/0 = SubResource("ShaderMaterial_kr3fq")
+
+[node name="DNA_010" parent="dna" index="3"]
+layers = 4
+surface_material_override/0 = SubResource("ShaderMaterial_kr3fq")
+
+[node name="DNA_006" parent="dna" index="4"]
+layers = 4
+surface_material_override/0 = SubResource("ShaderMaterial_kr3fq")
+
+[node name="DNA_007" parent="dna" index="5"]
+layers = 4
+surface_material_override/0 = SubResource("ShaderMaterial_kr3fq")
+
+[node name="DNA_009" parent="dna" index="6"]
+layers = 4
+surface_material_override/0 = SubResource("ShaderMaterial_kr3fq")
+
+[node name="DNA_004" parent="dna" index="7"]
+layers = 4
+surface_material_override/0 = SubResource("ShaderMaterial_kr3fq")
+
+[node name="DNA_008" parent="dna" index="8"]
+layers = 4
+surface_material_override/0 = SubResource("ShaderMaterial_kr3fq")
+
+[node name="GPUParticles3D" type="GPUParticles3D" parent="."]
+amount = 1000
+trail_lifetime = 9.79
+process_material = SubResource("ParticleProcessMaterial_q8uo8")
+draw_pass_1 = SubResource("PointMesh_r3ntq")
+
+[editable path="CanvasLayer/head_anchor/head/skull"]
+[editable path="CanvasLayer/head_anchor/head/brain/Sketchfab_Scene"]
+[editable path="dna"]
