@@ -7,8 +7,8 @@ var sum = 0
 func _process(delta: float) -> void:
 	#sprite2d.rotation += 0.1 * delta * 100 * OscClient.high_range_rms * 50
 	sprite2d.rotation += 0.1 * delta * OscClient.zcr * 100
-	colorrect.material.set("shader_parameter/shake_power", (OscClient.high_range_rms) / 2)
-	colorrect.material.set("shader_parameter/mu", (OscClient.high_range_rms) * 1000/2)
+	colorrect.material.set("shader_parameter/shake_power", floor((OscClient.high_range_rms) / 2.0))
+	colorrect.material.set("shader_parameter/mu", floor(OscClient.high_range_rms * 1000 / 2.0))
 	#sum += delta + OscClient.flux * delta * 100 * 10
 	sum += delta +  OscClient.low_range_rms * OscClient.flux * delta * 0.01 * 10
 	c2.material.set("shader_parameter/iTime", sum)

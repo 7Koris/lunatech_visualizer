@@ -21,6 +21,6 @@ func _process(delta: float) -> void:
 	head.rotate_y(delta * OscClient.zcr * 5 + delta * 0.001)
 	
 	for i in range(1, len(brain_slices)):
-		var target = len(brain_slices)
-		target *= OscClient.zcr
+		#var target = len(brain_slices)
+		#target *= OscClient.zcr
 		brain_slices[i].visible = true #(i < target)

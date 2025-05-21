@@ -2,7 +2,7 @@
 
 extends Node
 
-@export var port = 3000
+@export var osc_port = 3000
 
 var incoming_messages := {}
 
@@ -27,7 +27,7 @@ func update_port(port):
 	server.listen(port)
 
 func _ready():
-	server.listen(port)
+	server.listen(osc_port)
 	thread = Thread.new()
 	thread.start(_thread_function.bind())
 
@@ -46,8 +46,8 @@ func _exit_tree():
 
 
 func listen(new_port):
-	port = new_port
-	server.listen(port)
+	osc_port = new_port
+	server.listen(osc_port)
 
 
 func _process(_delta):
@@ -108,14 +108,14 @@ func parse_message(packet: PackedByteArray):
 func parse_bundle(packet: PackedByteArray):
 	packet = packet.slice(7)
 	var mess_num = []
-	var bund_ind = 0
+	#var bund_ind = 0
 	var messages = []
 	
 	for i in range(packet.size()/4.0):
-		var bund_arr = PackedByteArray([32,0,0,0])
+		#var bund_arr = PackedByteArray([32,0,0,0])
 		if packet.slice(i*4, i*4+4) == PackedByteArray([1, 0, 0, 0]):
 			mess_num.append(i*4)
-			bund_ind + 1
+			#bund_ind + 1
 		elif packet[i*4+1] == 47 and packet[i*4 - 2] <= 0 and packet.slice(i*4 - 4, i*4) != PackedByteArray([1, 0, 0, 0]):
 			mess_num.append(i*4-4)
 		pass

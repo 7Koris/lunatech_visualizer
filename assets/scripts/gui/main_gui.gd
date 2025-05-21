@@ -1,7 +1,7 @@
 extends Control
 
 @onready var visual_display = preload("res://assets/scenes/VisualDisplay.tscn")
-@onready var scene_entry = preload("res://assets/scenes/gui/SceneEntry.tscn")
+@onready var empty_scene_entry = preload("res://assets/scenes/gui/SceneEntry.tscn")
 @onready var scene_list = $"VBoxContainer/TabContainer/Scene Select/MarginContainer3/VBoxContainer/ScrollContainer/SceneList"
 @onready var online = preload("res://assets/sprites/Online.tres")
 @onready var offline = preload("res://assets/sprites/Offline.tres")
@@ -98,7 +98,7 @@ func kill_server():
 
 
 func launch_bin():
-	var output = []
+	#var output = []
 	var args = []
 	match platform:
 		"Linux":
@@ -147,7 +147,7 @@ func _reset_scene_entries():
 		if file == "":
 			break
 		elif file.get_extension() == "tscn":
-			var new_scene_entry: SceneEntry = scene_entry.instantiate()
+			var new_scene_entry: SceneEntry = empty_scene_entry.instantiate()
 			new_scene_entry.get_label().text = file
 			new_scene_entry.connect("SceneEntryToggled", _on_entry_toggled)
 			scene_list.add_child(new_scene_entry)
