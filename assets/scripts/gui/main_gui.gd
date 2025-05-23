@@ -12,7 +12,9 @@ extends Control
 
 var visual_display_instance: VisualDisplay
 
-var bin_path = ProjectSettings.globalize_path("res://bin/lt_server")
+var server_path = ProjectSettings.globalize_path("res://bin/lt_server")
+var sv_path = ProjectSettings.globalize_path("res://bin/supervisor")
+
 var server_pid: int
 var platform: String
 
@@ -46,9 +48,8 @@ func _process(delta: float) -> void:
 		clean_zombie()
 		p_accum = 0
 		if is_server_running():
-			server_status.texture = online
+			pass
 		else:
-			server_status.texture = offline
 			restart_server()
 
 
@@ -65,6 +66,8 @@ func start() -> void:
 		restart_server()
 	_reset_scene_entries()
 	_on_scene_switcher_timeout()
+	
+	launch_sv()
 
 
 func _notification(what):
@@ -97,6 +100,18 @@ func kill_server():
 			pass
 
 
+func launch_sv():
+	var output = []
+	var args = []
+	match platform:
+		"Linux":
+			args = ["-p", port]
+		"Windows":
+			# TODO
+			pass
+	server_pid = OS.create_process(sv_path, args)
+
+
 func launch_bin():
 	var output = []
 	var args = []
@@ -108,7 +123,7 @@ func launch_bin():
 		"Windows":
 			# TODO
 			pass
-	server_pid = OS.create_process(bin_path, args)
+	server_pid = OS.create_process(server_path, args)
 
 
 func restart_server():

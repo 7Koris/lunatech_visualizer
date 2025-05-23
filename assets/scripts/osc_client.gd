@@ -4,11 +4,14 @@ extends Node
 
 @export var port = 3000
 
+# NETWORK STUFF
+const HB_DELAY = 2000 # msec
 var incoming_messages := {}
-
 var server = UDPServer.new()
 var peers: Array[PacketPeerUDP] = []
+var hb_sender = PacketPeerUDP.new()
 
+# OSC FEATURES
 var broad_range_rms = 0
 var low_range_rms = 0
 var mid_range_rms = 0
@@ -17,21 +20,44 @@ var flux = 0
 var zcr = 0
 var spectral_centroid = 0
 
+# THREAD STUFF
 signal message_received(address, value, time)
-var thread: Thread
-
+var osc_thread: Thread
+var hb_thread: Thread
+var server_status_thread: Thread
 var terminated: bool = false
+
+var is_server_alive = false
 
 func update_port(port):
 	server.stop()
 	server.listen(port)
+	hb_sender.close()
+	hb_sender.bind(port)
+	hb_sender.set_broadcast_enabled(true)
+	hb_sender.set_dest_address("255.255.255.255", port)
 
 func _ready():
 	server.listen(port)
-	thread = Thread.new()
-	thread.start(_thread_function.bind())
+	hb_sender.bind(port)
+	hb_sender.set_broadcast_enabled(true)
+	hb_sender.set_dest_address("255.255.255.255", port)
+	osc_thread = Thread.new()
+	hb_thread = Thread.new()
+	osc_thread.start(_osc_thread.bind())
+	hb_thread.start(_hb_thread.bind())
 
-func _thread_function():
+func _hb_thread():
+	while(!terminated):
+		var data: Dictionary = {
+			"time": Time.get_ticks_msec(),
+			"host": "ltv"
+		}
+		var buf = JSON.stringify(data).to_utf8_buffer()
+		hb_sender.put_packet(buf)
+		OS.delay_msec(100)
+
+func _osc_thread():
 	while(!terminated):
 		server.poll()
 		if server.is_connection_available():
@@ -42,7 +68,8 @@ func _thread_function():
 
 
 func _exit_tree():
-	thread.wait_to_finish()
+	osc_thread.wait_to_finish()
+	hb_thread.wait_to_finish()
 
 
 func listen(new_port):
@@ -50,15 +77,10 @@ func listen(new_port):
 	server.listen(port)
 
 
-func _process(_delta):
-	pass
-
-
 func parse():
 	for peer in peers:
 		for l in range(peer.get_available_packet_count()):
 			var packet = peer.get_packet()
-			
 			if packet.get_string_from_ascii() == "#bundle":
 				parse_bundle(packet)
 			else:
@@ -66,6 +88,15 @@ func parse():
 
 
 func parse_message(packet: PackedByteArray):
+	if packet.find(123) == 0:
+		var str = packet.get_string_from_ascii()
+		var json = JSON.parse_string(str)
+		if json["host"] == "ltsv":
+			is_server_alive = json["server_state"]
+		return
+	if not packet.find(47) == 0:
+		return
+	
 	var comma_index = packet.find(44)
 	var address = packet.slice(0, comma_index).get_string_from_ascii()
 	var args = packet.slice(comma_index, packet.size())
@@ -97,6 +128,8 @@ func parse_message(packet: PackedByteArray):
 				args = args.slice(ceili((val.length() + 1) / 4.0) * 4, args.size())
 			98:  #b: blob
 				vals.append(args)
+			_:
+				pass
 			
 	incoming_messages[address] = vals
 	
