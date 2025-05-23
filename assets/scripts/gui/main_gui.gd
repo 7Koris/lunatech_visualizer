@@ -101,7 +101,6 @@ func kill_server():
 
 
 func launch_sv():
-	var output = []
 	var args = []
 	match platform:
 		"Linux":

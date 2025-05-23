@@ -63,7 +63,6 @@ func _osc_thread():
 		server.poll()
 		if server.is_connection_available():
 			var peer: PacketPeerUDP = server.take_connection()
-			#print("Accepted peer: %s:%s" % [peer.get_packet_ip(), peer.get_packet_port()])
 			peers.append(peer)
 		parse()
 
@@ -90,8 +89,7 @@ func parse():
 
 func parse_message(packet: PackedByteArray):
 	if packet.find(123) == 0:
-		var str = packet.get_string_from_ascii()
-		var json = JSON.parse_string(str)
+		var json = JSON.parse_string(packet.get_string_from_ascii())
 		if json["host"] == "ltsv":
 			is_server_alive = json["server_state"]
 		return
