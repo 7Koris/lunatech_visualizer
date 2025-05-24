@@ -59,6 +59,10 @@ func _hb_thread():
 		OS.delay_msec(100)
 
 func _osc_thread():
+	thread = Thread.new()
+	thread.start(_thread_function.bind())
+
+func _thread_function():
 	while(!terminated):
 		server.poll()
 		if server.is_connection_available():
@@ -66,16 +70,13 @@ func _osc_thread():
 			peers.append(peer)
 		parse()
 
-
 func _exit_tree():
 	osc_thread.wait_to_finish()
 	hb_thread.wait_to_finish()
 
-
 func listen(new_port):
 	osc_port = new_port
 	server.listen(osc_port)
-
 
 func parse():
 	for peer in peers:
@@ -85,7 +86,6 @@ func parse():
 				parse_bundle(packet)
 			else:
 				parse_message(packet)
-
 
 func parse_message(packet: PackedByteArray):
 	if packet.find(123) == 0:
