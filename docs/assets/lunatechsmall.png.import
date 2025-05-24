@@ -3,15 +3,15 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://ct41mu0ftedj"
-path="res://.godot/imported/lunatechsmall.png-19e9b98792a667a531b048b7a2d2a34a.ctex"
+path="res://.godot/imported/lunatechsmall.png-5ff9b2921582acec2fc4491e42bab712.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://lunatechsmall.png"
-dest_files=["res://.godot/imported/lunatechsmall.png-19e9b98792a667a531b048b7a2d2a34a.ctex"]
+source_file="res://docs/assets/lunatechsmall.png"
+dest_files=["res://.godot/imported/lunatechsmall.png-5ff9b2921582acec2fc4491e42bab712.ctex"]
 
 [params]
 
