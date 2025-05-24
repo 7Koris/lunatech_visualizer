@@ -59,10 +59,6 @@ func _hb_thread():
 		OS.delay_msec(100)
 
 func _osc_thread():
-	thread = Thread.new()
-	thread.start(_thread_function.bind())
-
-func _thread_function():
 	while(!terminated):
 		server.poll()
 		if server.is_connection_available():
