@@ -21,20 +21,20 @@ fn main() {
         }
     });
 
-    let server_dead_clock = Arc::new(Mutex::new(std::time::Instant::now()));
+    //let server_dead_clock = Arc::new(Mutex::new(std::time::Instant::now()));
     let vis_dead_clock = Arc::new(Mutex::new(std::time::Instant::now()));
-    let server_dead_clock_ref = Arc::clone(&server_dead_clock);
+    //let server_dead_clock_ref = Arc::clone(&server_dead_clock);
     let vis_dead_clock_ref = Arc::clone(&vis_dead_clock);
 
-    let server_dead_state = false;
-    let server_dead_state = Arc::new(Mutex::new(server_dead_state));
-    //let server_dead_state_ref = Arc::clone(&server_dead_state);
+    // let server_dead_state = false;
+    // let server_dead_state = Arc::new(Mutex::new(server_dead_state));
+    // let server_dead_state_ref = Arc::clone(&server_dead_state);
 
     thread::spawn(move || {
         loop {
-            if server_dead_clock_ref.lock().unwrap().elapsed().as_secs_f32() > 1.0 {
-                *server_dead_state.lock().unwrap() = true;
-            }
+            // if server_dead_clock_ref.lock().unwrap().elapsed().as_secs_f32() > 1.0 {
+            //     *server_dead_state.lock().unwrap() = true;
+            // }
 
             let name = "lt_server";
             if vis_dead_clock_ref.lock().unwrap().elapsed().as_secs_f32() > 1.0 {
@@ -90,9 +90,9 @@ fn main() {
                         let json_data = serde_json::from_str::<serde_json::Value>(&json).unwrap();
                         let host = json_data["host"].as_str().unwrap_or("err");
                         match host {
-                            "lt" => {
-                                *server_dead_clock.lock().unwrap() = std::time::Instant::now();
-                            }
+                            // "lt" => {
+                            //     *server_dead_clock.lock().unwrap() = std::time::Instant::now();
+                            // }
                             "ltv" => {
                                 *vis_dead_clock.lock().unwrap() = std::time::Instant::now();
                             }
