@@ -195,7 +195,7 @@ func parse_bundle(packet: PackedByteArray):
 					vals.append(args)
 				
 		match address:
-			"/lt/BroadRangeRMS":
+			"/lt/RMS":
 				broad_range_rms = vals[0]
 			"/lt/LowRangeRMS":
 				low_range_rms = vals[0]

@@ -1,0 +1,242 @@
+[gd_scene load_steps=2 format=3 uid="uid://5084yieqsjtd"]
+
+[sub_resource type="GDScript" id="GDScript_q3rkr"]
+resource_name = "debug"
+script/source = "extends CenterContainer
+
+@onready var rms_bar = $bars/rms/progress_marign/rmsbar
+@onready var rms_val = $bars/rms/value_margin/value
+
+@onready var low_rms_bar = $bars/lowrms/progress_marign/lowrmsbar
+@onready var low_rms_val = $bars/lowrms/value_margin/value
+
+@onready var mid_rms_bar = $bars/midrms/progress_marign/midrmsbar
+@onready var mid_rms_val = $bars/midrms/value_margin/value
+
+@onready var high_rms_bar = $bars/highrms/progress_marign/highrmsbar
+@onready var high_rms_val = $bars/highrms/value_margin/value
+
+@onready var zcr_bar = $bars/zcr/progress_marign/zcrbar
+@onready var zcr_val = $bars/zcr/value_margin/value
+
+@onready var flux_bar = $bars/flux/progress_marign/fluxbar
+@onready var flux_val = $bars/flux/value_margin/value
+
+@onready var sc_bar = $bars/sc/progress_marign/scbar
+@onready var sc_val = $bars/sc/value_margin/value
+
+func _process(_delta):
+	rms_bar.value = OscClient.broad_range_rms
+	rms_val.text = str(OscClient.broad_range_rms)
+	
+	low_rms_bar.value = OscClient.low_range_rms
+	low_rms_val.text = str(OscClient.low_range_rms)
+	
+	mid_rms_bar.value = OscClient.mid_range_rms
+	mid_rms_val.text = str(OscClient.mid_range_rms)
+	
+	high_rms_bar.value = OscClient.high_range_rms
+	high_rms_val.text = str(OscClient.high_range_rms)
+	
+	zcr_bar.value = OscClient.zcr
+	zcr_val.text = str(OscClient.zcr)
+	
+	flux_bar.value = OscClient.flux
+	flux_val.text = str(OscClient.flux)
+	
+	sc_bar.value = OscClient.spectral_centroid
+	sc_val.text = str(OscClient.spectral_centroid)
+"
+
+[node name="Debug" type="CenterContainer"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = SubResource("GDScript_q3rkr")
+
+[node name="bars" type="VBoxContainer" parent="."]
+layout_mode = 2
+
+[node name="rms" type="HBoxContainer" parent="bars"]
+layout_mode = 2
+
+[node name="MarginContainer" type="MarginContainer" parent="bars/rms"]
+custom_minimum_size = Vector2(150, 0)
+layout_mode = 2
+
+[node name="Label" type="Label" parent="bars/rms/MarginContainer"]
+layout_mode = 2
+text = "rms"
+
+[node name="progress_marign" type="MarginContainer" parent="bars/rms"]
+custom_minimum_size = Vector2(500, 0)
+layout_mode = 2
+
+[node name="rmsbar" type="ProgressBar" parent="bars/rms/progress_marign"]
+layout_mode = 2
+max_value = 1.0
+
+[node name="value_margin" type="MarginContainer" parent="bars/rms"]
+custom_minimum_size = Vector2(100, 0)
+layout_mode = 2
+
+[node name="value" type="Label" parent="bars/rms/value_margin"]
+layout_mode = 2
+
+[node name="lowrms" type="HBoxContainer" parent="bars"]
+layout_mode = 2
+
+[node name="MarginContainer2" type="MarginContainer" parent="bars/lowrms"]
+custom_minimum_size = Vector2(150, 0)
+layout_mode = 2
+
+[node name="Label" type="Label" parent="bars/lowrms/MarginContainer2"]
+layout_mode = 2
+text = "lowrms"
+
+[node name="progress_marign" type="MarginContainer" parent="bars/lowrms"]
+custom_minimum_size = Vector2(500, 0)
+layout_mode = 2
+
+[node name="lowrmsbar" type="ProgressBar" parent="bars/lowrms/progress_marign"]
+layout_mode = 2
+max_value = 1.0
+
+[node name="value_margin" type="MarginContainer" parent="bars/lowrms"]
+custom_minimum_size = Vector2(100, 0)
+layout_mode = 2
+
+[node name="value" type="Label" parent="bars/lowrms/value_margin"]
+layout_mode = 2
+
+[node name="midrms" type="HBoxContainer" parent="bars"]
+layout_mode = 2
+
+[node name="MarginContainer2" type="MarginContainer" parent="bars/midrms"]
+custom_minimum_size = Vector2(150, 0)
+layout_mode = 2
+
+[node name="Label" type="Label" parent="bars/midrms/MarginContainer2"]
+layout_mode = 2
+text = "midrms"
+
+[node name="progress_marign" type="MarginContainer" parent="bars/midrms"]
+custom_minimum_size = Vector2(500, 0)
+layout_mode = 2
+
+[node name="midrmsbar" type="ProgressBar" parent="bars/midrms/progress_marign"]
+layout_mode = 2
+max_value = 1.0
+
+[node name="value_margin" type="MarginContainer" parent="bars/midrms"]
+custom_minimum_size = Vector2(100, 0)
+layout_mode = 2
+
+[node name="value" type="Label" parent="bars/midrms/value_margin"]
+layout_mode = 2
+
+[node name="highrms" type="HBoxContainer" parent="bars"]
+layout_mode = 2
+
+[node name="MarginContainer2" type="MarginContainer" parent="bars/highrms"]
+custom_minimum_size = Vector2(150, 0)
+layout_mode = 2
+
+[node name="Label" type="Label" parent="bars/highrms/MarginContainer2"]
+layout_mode = 2
+text = "highrms"
+
+[node name="progress_marign" type="MarginContainer" parent="bars/highrms"]
+custom_minimum_size = Vector2(500, 0)
+layout_mode = 2
+
+[node name="highrmsbar" type="ProgressBar" parent="bars/highrms/progress_marign"]
+layout_mode = 2
+max_value = 1.0
+
+[node name="value_margin" type="MarginContainer" parent="bars/highrms"]
+custom_minimum_size = Vector2(100, 0)
+layout_mode = 2
+
+[node name="value" type="Label" parent="bars/highrms/value_margin"]
+layout_mode = 2
+
+[node name="zcr" type="HBoxContainer" parent="bars"]
+layout_mode = 2
+
+[node name="MarginContainer2" type="MarginContainer" parent="bars/zcr"]
+custom_minimum_size = Vector2(150, 0)
+layout_mode = 2
+
+[node name="Label" type="Label" parent="bars/zcr/MarginContainer2"]
+layout_mode = 2
+text = "zcr"
+
+[node name="progress_marign" type="MarginContainer" parent="bars/zcr"]
+custom_minimum_size = Vector2(500, 0)
+layout_mode = 2
+
+[node name="zcrbar" type="ProgressBar" parent="bars/zcr/progress_marign"]
+layout_mode = 2
+max_value = 1.0
+
+[node name="value_margin" type="MarginContainer" parent="bars/zcr"]
+custom_minimum_size = Vector2(100, 0)
+layout_mode = 2
+
+[node name="value" type="Label" parent="bars/zcr/value_margin"]
+layout_mode = 2
+
+[node name="flux" type="HBoxContainer" parent="bars"]
+layout_mode = 2
+
+[node name="MarginContainer2" type="MarginContainer" parent="bars/flux"]
+custom_minimum_size = Vector2(150, 0)
+layout_mode = 2
+
+[node name="Label" type="Label" parent="bars/flux/MarginContainer2"]
+layout_mode = 2
+text = "flux"
+
+[node name="progress_marign" type="MarginContainer" parent="bars/flux"]
+custom_minimum_size = Vector2(500, 0)
+layout_mode = 2
+
+[node name="fluxbar" type="ProgressBar" parent="bars/flux/progress_marign"]
+layout_mode = 2
+max_value = 1.0
+
+[node name="value_margin" type="MarginContainer" parent="bars/flux"]
+custom_minimum_size = Vector2(100, 0)
+layout_mode = 2
+
+[node name="value" type="Label" parent="bars/flux/value_margin"]
+layout_mode = 2
+
+[node name="sc" type="HBoxContainer" parent="bars"]
+layout_mode = 2
+
+[node name="MarginContainer2" type="MarginContainer" parent="bars/sc"]
+custom_minimum_size = Vector2(150, 0)
+layout_mode = 2
+
+[node name="sc" type="Label" parent="bars/sc/MarginContainer2"]
+layout_mode = 2
+text = "sc"
+
+[node name="progress_marign" type="MarginContainer" parent="bars/sc"]
+custom_minimum_size = Vector2(500, 0)
+layout_mode = 2
+
+[node name="scbar" type="ProgressBar" parent="bars/sc/progress_marign"]
+layout_mode = 2
+max_value = 1.0
+
+[node name="value_margin" type="MarginContainer" parent="bars/sc"]
+custom_minimum_size = Vector2(100, 0)
+layout_mode = 2
+
+[node name="value" type="Label" parent="bars/sc/value_margin"]
+layout_mode = 2
