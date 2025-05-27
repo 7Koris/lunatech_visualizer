@@ -25,8 +25,8 @@ var w = floor(8.0/3.0)
 var time_scale = 0.5
 var time_elapsed = 0.0
 func _physics_process(delta: float) -> void:
-	time_elapsed += delta * OscClient.flux / 10
-	time_scale = 1 * OscClient.low_range_rms * 1
+	time_elapsed += delta * OscClient.rms * 10
+	time_scale = OscClient.rms * delta * 50
 	
 	var newx = self.position.x
 	var newy = self.position.y

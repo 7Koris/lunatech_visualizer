@@ -1,81 +1,79 @@
 # Simple placeholder godot osc client using dfcompose 'godOSC' plugin as starter
 
 extends Node
-
-@export var osc_port = 3000
-const BROADCAST_ADDR = "255.255.255.255"
-
-# NETWORK STUFF
-const HB_DELAY = 2000 # msec
-var incoming_messages := {}
-var server = UDPServer.new()
-var peers: Array[PacketPeerUDP] = []
-var hb_sender = PacketPeerUDP.new()
+@export var _osc_port = 3000
 
 # OSC FEATURES
-var broad_range_rms = 0
-var low_range_rms = 0
-var mid_range_rms = 0
-var high_range_rms = 0
+var rms = 0
+var bass = 0
+var mid = 0
+var treble = 0
 var flux = 0
 var zcr = 0
-var spectral_centroid = 0
+var centroid = 0
+var rolloff = 0
+var tv = 0
 
-# THREAD STUFF
-signal message_received(address, value, time)
-var osc_thread: Thread
-var hb_thread: Thread
-var server_status_thread: Thread
-var terminated: bool = false
+# NETWORK STUFF
+const _HB_DELAY = 100 # msec
+const _BROADCAST_ADDR = "255.255.255.255"
+var _incoming_messages := {}
+var _server = UDPServer.new()
+var _peers: Array[PacketPeerUDP] = []
+var _hb_sender = PacketPeerUDP.new()
 
-var is_server_alive = false
+var _osc_thread: Thread
+var _hb_thread: Thread
+var _terminated: bool = false
+
+var _is_server_alive = false
 
 func update_port(port):
-	server.stop()
-	server.listen(port)
-	hb_sender.close()
-	hb_sender.bind(port)
-	hb_sender.set_broadcast_enabled(true)
-	hb_sender.set_dest_address(BROADCAST_ADDR, port)
+	_server.stop()
+	_server.listen(port)
+	_hb_sender.close()
+	_hb_sender.bind(port)
+	_hb_sender.set_broadcast_enabled(true)
+	_hb_sender.set_dest_address(_BROADCAST_ADDR, port)
 
 func _ready():
-	server.listen(osc_port)
-	hb_sender.bind(osc_port)
-	hb_sender.set_broadcast_enabled(true)
-	hb_sender.set_dest_address(BROADCAST_ADDR, osc_port)
-	osc_thread = Thread.new()
-	hb_thread = Thread.new()
-	osc_thread.start(_osc_thread.bind())
-	hb_thread.start(_hb_thread.bind())
+	_server.listen(_osc_port)
+	_hb_sender.bind(_osc_port)
+	_hb_sender.set_broadcast_enabled(true)
+	_hb_sender.set_dest_address(_BROADCAST_ADDR, _osc_port)
+	_osc_thread = Thread.new()
+	_hb_thread = Thread.new()
+	_osc_thread.start(_osc_thread_loop.bind())
+	_hb_thread.start(_hb_thread_loop.bind())
 
-func _hb_thread():
-	while(!terminated):
+func _hb_thread_loop():
+	while(!_terminated):
 		var data: Dictionary = {
 			"time": Time.get_ticks_msec(),
 			"host": "ltv"
 		}
 		var buf = JSON.stringify(data).to_utf8_buffer()
-		hb_sender.put_packet(buf)
-		OS.delay_msec(100)
+		_hb_sender.put_packet(buf)
+		OS.delay_msec(_HB_DELAY)
 
-func _osc_thread():
-	while(!terminated):
-		server.poll()
-		if server.is_connection_available():
-			var peer: PacketPeerUDP = server.take_connection()
-			peers.append(peer)
+func _osc_thread_loop():
+	while(!_terminated):
+		_server.poll()
+		if _server.is_connection_available():
+			var peer: PacketPeerUDP = _server.take_connection()
+			_peers.append(peer)
 		parse()
 
 func _exit_tree():
-	osc_thread.wait_to_finish()
-	hb_thread.wait_to_finish()
+	_osc_thread.wait_to_finish()
+	_hb_thread.wait_to_finish()
 
 func listen(new_port):
-	osc_port = new_port
-	server.listen(osc_port)
+	_osc_port = new_port
+	_server.listen(_osc_port)
 
 func parse():
-	for peer in peers:
+	for peer in _peers:
 		for l in range(peer.get_available_packet_count()):
 			var packet = peer.get_packet()
 			if packet.get_string_from_ascii() == "#bundle":
@@ -87,7 +85,7 @@ func parse_message(packet: PackedByteArray):
 	if packet.find(123) == 0:
 		var json = JSON.parse_string(packet.get_string_from_ascii())
 		if json["host"] == "ltsv":
-			is_server_alive = json["server_state"]
+			_is_server_alive = json["server_state"]
 		return
 	if not packet.find(47) == 0:
 		return
@@ -126,11 +124,10 @@ func parse_message(packet: PackedByteArray):
 			_:
 				pass
 			
-	incoming_messages[address] = vals
+	_incoming_messages[address] = vals
 	
 	if vals is Array and len(vals) == 1:
 		vals = vals[0]
-	message_received.emit(address, vals, Time.get_time_string_from_system())
 
 
 func parse_bundle(packet: PackedByteArray):
@@ -196,17 +193,21 @@ func parse_bundle(packet: PackedByteArray):
 				
 		match address:
 			"/lt/RMS":
-				broad_range_rms = vals[0]
-			"/lt/LowRangeRMS":
-				low_range_rms = vals[0]
-			"/lt/MidRangeRMS":
-				mid_range_rms = vals[0]
-			"/lt/HighRangeRMS":
-				high_range_rms = vals[0]
+				rms = vals[0]
+			"/lt/Bass":
+				bass = vals[0]
+			"/lt/Mid":
+				mid = vals[0]
+			"/lt/Treble":
+				treble = vals[0]
 			"/lt/Flux":
 				flux = vals[0]
 			"/lt/ZCR":
 				zcr = vals[0]
-			"/lt/SpectralCentroid":
-				spectral_centroid = vals[0]
-		incoming_messages[address] = vals
+			"/lt/Centroid":
+				centroid = vals[0]
+			"/lt/RollOff":
+				rolloff = vals[0]
+			"/lt/TV":
+				tv = vals[0]
+		_incoming_messages[address] = vals
