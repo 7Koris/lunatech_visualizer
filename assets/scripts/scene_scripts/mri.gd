@@ -9,15 +9,15 @@ extends Node3D
 var color_mult = 1
 var shake = 0
 func _process(delta: float) -> void:
-	color_mult = OscClient.low_range_rms * 20
-	shake = OscClient.high_range_rms * 10
+	color_mult = OscClient.bass * 1000 * delta
+	shake = OscClient.bass * 100 * delta
 	env.ambient_light_color = Color(color_mult, 0, clampf(1 / (color_mult + 0.001), -10, 5))
 	
 	for child: MeshInstance3D in dna_children:
 		child.get_surface_override_material(0).set("shader_parameter/shake_power", shake * 0)
 		child.get_surface_override_material(0).set("shader_parameter/offset", shake * 0.01)
 		# (delta * OscClient.zcr + delta * 0.1
-	dna.rotate_y(-delta * OscClient.high_range_rms * 100 - delta * 0.1)
+	dna.rotate_y(-delta * OscClient.treble * 100 - delta * 0.1)
 	head.rotate_y(delta * OscClient.zcr * 5 + delta * 0.001)
 	
 	for i in range(1, len(brain_slices)):

@@ -32,8 +32,8 @@ script/source = "extends CenterContainer
 @onready var tv_val = $bars/tv/value_margin/value
 
 func _process(_delta):
-	rms_bar.value = OscClient.broad_range_rms
-	rms_val.text = str(OscClient.broad_range_rms)
+	rms_bar.value = OscClient.rms
+	rms_val.text = str(OscClient.rms)
 	
 	low_rms_bar.value = OscClient.bass
 	low_rms_val.text = str(OscClient.bass)
@@ -256,7 +256,7 @@ layout_mode = 2
 
 [node name="sc" type="Label" parent="Debug/bars/sc/MarginContainer2"]
 layout_mode = 2
-text = "sc"
+text = "centroid"
 
 [node name="progress_marign" type="MarginContainer" parent="Debug/bars/sc"]
 custom_minimum_size = Vector2(500, 0)

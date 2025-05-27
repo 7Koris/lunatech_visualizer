@@ -4,7 +4,7 @@ extends Node
 @export var _osc_port = 3000
 
 # OSC FEATURES
-var broad_range_rms = 0
+var rms = 0
 var bass = 0
 var mid = 0
 var treble = 0
@@ -193,7 +193,7 @@ func parse_bundle(packet: PackedByteArray):
 				
 		match address:
 			"/lt/RMS":
-				broad_range_rms = vals[0]
+				rms = vals[0]
 			"/lt/Bass":
 				bass = vals[0]
 			"/lt/Mid":
