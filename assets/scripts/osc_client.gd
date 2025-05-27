@@ -192,22 +192,22 @@ func parse_bundle(packet: PackedByteArray):
 					vals.append(args)
 				
 		match address:
-			"/lt/RMS":
+			"/lt/rms":
 				rms = vals[0]
-			"/lt/Bass":
+			"/lt/bass":
 				bass = vals[0]
-			"/lt/Mid":
+			"/lt/mid":
 				mid = vals[0]
-			"/lt/Treble":
+			"/lt/treble":
 				treble = vals[0]
-			"/lt/Flux":
+			"/lt/flux":
 				flux = vals[0]
-			"/lt/ZCR":
+			"/lt/zcr":
 				zcr = vals[0]
-			"/lt/Centroid":
+			"/lt/centroid":
 				centroid = vals[0]
-			"/lt/RollOff":
+			"/lt/rolloff":
 				rolloff = vals[0]
-			"/lt/TV":
+			"/lt/tv":
 				tv = vals[0]
 		_incoming_messages[address] = vals
