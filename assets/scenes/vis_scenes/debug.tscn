@@ -25,18 +25,24 @@ script/source = "extends CenterContainer
 @onready var sc_bar = $bars/sc/progress_marign/scbar
 @onready var sc_val = $bars/sc/value_margin/value
 
+@onready var ro_bar = $bars/rolloff/progress_marign/robar
+@onready var ro_val = $bars/rolloff/value_margin/value
+
+@onready var tv_bar = $bars/tv/progress_marign/tvbar
+@onready var tv_val = $bars/tv/value_margin/value
+
 func _process(_delta):
 	rms_bar.value = OscClient.broad_range_rms
 	rms_val.text = str(OscClient.broad_range_rms)
 	
-	low_rms_bar.value = OscClient.low_range_rms
-	low_rms_val.text = str(OscClient.low_range_rms)
+	low_rms_bar.value = OscClient.bass
+	low_rms_val.text = str(OscClient.bass)
 	
-	mid_rms_bar.value = OscClient.mid_range_rms
-	mid_rms_val.text = str(OscClient.mid_range_rms)
+	mid_rms_bar.value = OscClient.mid
+	mid_rms_val.text = str(OscClient.mid)
 	
-	high_rms_bar.value = OscClient.high_range_rms
-	high_rms_val.text = str(OscClient.high_range_rms)
+	high_rms_bar.value = OscClient.treble
+	high_rms_val.text = str(OscClient.treble)
 	
 	zcr_bar.value = OscClient.zcr
 	zcr_val.text = str(OscClient.zcr)
@@ -44,199 +50,277 @@ func _process(_delta):
 	flux_bar.value = OscClient.flux
 	flux_val.text = str(OscClient.flux)
 	
-	sc_bar.value = OscClient.spectral_centroid
-	sc_val.text = str(OscClient.spectral_centroid)
+	sc_bar.value = OscClient.centroid
+	sc_val.text = str(OscClient.centroid)
+	
+	ro_bar.value = OscClient.rolloff
+	ro_val.text = str(OscClient.rolloff)
+	
+	tv_bar.value = OscClient.tv
+	tv_val.text = str(OscClient.tv)
 "
 
-[node name="Debug" type="CenterContainer"]
+[node name="Control" type="Control"]
+layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+
+[node name="ColorRect" type="ColorRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 1)
+
+[node name="Debug" type="CenterContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
 script = SubResource("GDScript_q3rkr")
 
-[node name="bars" type="VBoxContainer" parent="."]
+[node name="bars" type="VBoxContainer" parent="Debug"]
 layout_mode = 2
 
-[node name="rms" type="HBoxContainer" parent="bars"]
+[node name="rms" type="HBoxContainer" parent="Debug/bars"]
 layout_mode = 2
 
-[node name="MarginContainer" type="MarginContainer" parent="bars/rms"]
+[node name="MarginContainer" type="MarginContainer" parent="Debug/bars/rms"]
 custom_minimum_size = Vector2(150, 0)
 layout_mode = 2
 
-[node name="Label" type="Label" parent="bars/rms/MarginContainer"]
+[node name="Label" type="Label" parent="Debug/bars/rms/MarginContainer"]
 layout_mode = 2
 text = "rms"
 
-[node name="progress_marign" type="MarginContainer" parent="bars/rms"]
+[node name="progress_marign" type="MarginContainer" parent="Debug/bars/rms"]
 custom_minimum_size = Vector2(500, 0)
 layout_mode = 2
 
-[node name="rmsbar" type="ProgressBar" parent="bars/rms/progress_marign"]
+[node name="rmsbar" type="ProgressBar" parent="Debug/bars/rms/progress_marign"]
 layout_mode = 2
 max_value = 1.0
 
-[node name="value_margin" type="MarginContainer" parent="bars/rms"]
+[node name="value_margin" type="MarginContainer" parent="Debug/bars/rms"]
 custom_minimum_size = Vector2(100, 0)
 layout_mode = 2
 
-[node name="value" type="Label" parent="bars/rms/value_margin"]
+[node name="value" type="Label" parent="Debug/bars/rms/value_margin"]
 layout_mode = 2
 
-[node name="lowrms" type="HBoxContainer" parent="bars"]
+[node name="lowrms" type="HBoxContainer" parent="Debug/bars"]
 layout_mode = 2
 
-[node name="MarginContainer2" type="MarginContainer" parent="bars/lowrms"]
+[node name="MarginContainer2" type="MarginContainer" parent="Debug/bars/lowrms"]
 custom_minimum_size = Vector2(150, 0)
 layout_mode = 2
 
-[node name="Label" type="Label" parent="bars/lowrms/MarginContainer2"]
+[node name="Label" type="Label" parent="Debug/bars/lowrms/MarginContainer2"]
 layout_mode = 2
-text = "lowrms"
+text = "bass"
 
-[node name="progress_marign" type="MarginContainer" parent="bars/lowrms"]
+[node name="progress_marign" type="MarginContainer" parent="Debug/bars/lowrms"]
 custom_minimum_size = Vector2(500, 0)
 layout_mode = 2
 
-[node name="lowrmsbar" type="ProgressBar" parent="bars/lowrms/progress_marign"]
+[node name="lowrmsbar" type="ProgressBar" parent="Debug/bars/lowrms/progress_marign"]
 layout_mode = 2
 max_value = 1.0
 
-[node name="value_margin" type="MarginContainer" parent="bars/lowrms"]
+[node name="value_margin" type="MarginContainer" parent="Debug/bars/lowrms"]
 custom_minimum_size = Vector2(100, 0)
 layout_mode = 2
 
-[node name="value" type="Label" parent="bars/lowrms/value_margin"]
+[node name="value" type="Label" parent="Debug/bars/lowrms/value_margin"]
 layout_mode = 2
 
-[node name="midrms" type="HBoxContainer" parent="bars"]
+[node name="midrms" type="HBoxContainer" parent="Debug/bars"]
 layout_mode = 2
 
-[node name="MarginContainer2" type="MarginContainer" parent="bars/midrms"]
+[node name="MarginContainer2" type="MarginContainer" parent="Debug/bars/midrms"]
 custom_minimum_size = Vector2(150, 0)
 layout_mode = 2
 
-[node name="Label" type="Label" parent="bars/midrms/MarginContainer2"]
+[node name="Label" type="Label" parent="Debug/bars/midrms/MarginContainer2"]
 layout_mode = 2
-text = "midrms"
+text = "mid"
 
-[node name="progress_marign" type="MarginContainer" parent="bars/midrms"]
+[node name="progress_marign" type="MarginContainer" parent="Debug/bars/midrms"]
 custom_minimum_size = Vector2(500, 0)
 layout_mode = 2
 
-[node name="midrmsbar" type="ProgressBar" parent="bars/midrms/progress_marign"]
+[node name="midrmsbar" type="ProgressBar" parent="Debug/bars/midrms/progress_marign"]
 layout_mode = 2
 max_value = 1.0
 
-[node name="value_margin" type="MarginContainer" parent="bars/midrms"]
+[node name="value_margin" type="MarginContainer" parent="Debug/bars/midrms"]
 custom_minimum_size = Vector2(100, 0)
 layout_mode = 2
 
-[node name="value" type="Label" parent="bars/midrms/value_margin"]
+[node name="value" type="Label" parent="Debug/bars/midrms/value_margin"]
 layout_mode = 2
 
-[node name="highrms" type="HBoxContainer" parent="bars"]
+[node name="highrms" type="HBoxContainer" parent="Debug/bars"]
 layout_mode = 2
 
-[node name="MarginContainer2" type="MarginContainer" parent="bars/highrms"]
+[node name="MarginContainer2" type="MarginContainer" parent="Debug/bars/highrms"]
 custom_minimum_size = Vector2(150, 0)
 layout_mode = 2
 
-[node name="Label" type="Label" parent="bars/highrms/MarginContainer2"]
+[node name="Label" type="Label" parent="Debug/bars/highrms/MarginContainer2"]
 layout_mode = 2
-text = "highrms"
+text = "treble"
 
-[node name="progress_marign" type="MarginContainer" parent="bars/highrms"]
+[node name="progress_marign" type="MarginContainer" parent="Debug/bars/highrms"]
 custom_minimum_size = Vector2(500, 0)
 layout_mode = 2
 
-[node name="highrmsbar" type="ProgressBar" parent="bars/highrms/progress_marign"]
+[node name="highrmsbar" type="ProgressBar" parent="Debug/bars/highrms/progress_marign"]
 layout_mode = 2
 max_value = 1.0
 
-[node name="value_margin" type="MarginContainer" parent="bars/highrms"]
+[node name="value_margin" type="MarginContainer" parent="Debug/bars/highrms"]
 custom_minimum_size = Vector2(100, 0)
 layout_mode = 2
 
-[node name="value" type="Label" parent="bars/highrms/value_margin"]
+[node name="value" type="Label" parent="Debug/bars/highrms/value_margin"]
 layout_mode = 2
 
-[node name="zcr" type="HBoxContainer" parent="bars"]
+[node name="zcr" type="HBoxContainer" parent="Debug/bars"]
 layout_mode = 2
 
-[node name="MarginContainer2" type="MarginContainer" parent="bars/zcr"]
+[node name="MarginContainer2" type="MarginContainer" parent="Debug/bars/zcr"]
 custom_minimum_size = Vector2(150, 0)
 layout_mode = 2
 
-[node name="Label" type="Label" parent="bars/zcr/MarginContainer2"]
+[node name="Label" type="Label" parent="Debug/bars/zcr/MarginContainer2"]
 layout_mode = 2
 text = "zcr"
 
-[node name="progress_marign" type="MarginContainer" parent="bars/zcr"]
+[node name="progress_marign" type="MarginContainer" parent="Debug/bars/zcr"]
 custom_minimum_size = Vector2(500, 0)
 layout_mode = 2
 
-[node name="zcrbar" type="ProgressBar" parent="bars/zcr/progress_marign"]
+[node name="zcrbar" type="ProgressBar" parent="Debug/bars/zcr/progress_marign"]
 layout_mode = 2
 max_value = 1.0
 
-[node name="value_margin" type="MarginContainer" parent="bars/zcr"]
+[node name="value_margin" type="MarginContainer" parent="Debug/bars/zcr"]
 custom_minimum_size = Vector2(100, 0)
 layout_mode = 2
 
-[node name="value" type="Label" parent="bars/zcr/value_margin"]
+[node name="value" type="Label" parent="Debug/bars/zcr/value_margin"]
 layout_mode = 2
 
-[node name="flux" type="HBoxContainer" parent="bars"]
+[node name="flux" type="HBoxContainer" parent="Debug/bars"]
 layout_mode = 2
 
-[node name="MarginContainer2" type="MarginContainer" parent="bars/flux"]
+[node name="MarginContainer2" type="MarginContainer" parent="Debug/bars/flux"]
 custom_minimum_size = Vector2(150, 0)
 layout_mode = 2
 
-[node name="Label" type="Label" parent="bars/flux/MarginContainer2"]
+[node name="Label" type="Label" parent="Debug/bars/flux/MarginContainer2"]
 layout_mode = 2
 text = "flux"
 
-[node name="progress_marign" type="MarginContainer" parent="bars/flux"]
+[node name="progress_marign" type="MarginContainer" parent="Debug/bars/flux"]
 custom_minimum_size = Vector2(500, 0)
 layout_mode = 2
 
-[node name="fluxbar" type="ProgressBar" parent="bars/flux/progress_marign"]
+[node name="fluxbar" type="ProgressBar" parent="Debug/bars/flux/progress_marign"]
 layout_mode = 2
 max_value = 1.0
 
-[node name="value_margin" type="MarginContainer" parent="bars/flux"]
+[node name="value_margin" type="MarginContainer" parent="Debug/bars/flux"]
 custom_minimum_size = Vector2(100, 0)
 layout_mode = 2
 
-[node name="value" type="Label" parent="bars/flux/value_margin"]
+[node name="value" type="Label" parent="Debug/bars/flux/value_margin"]
 layout_mode = 2
 
-[node name="sc" type="HBoxContainer" parent="bars"]
+[node name="sc" type="HBoxContainer" parent="Debug/bars"]
 layout_mode = 2
 
-[node name="MarginContainer2" type="MarginContainer" parent="bars/sc"]
+[node name="MarginContainer2" type="MarginContainer" parent="Debug/bars/sc"]
 custom_minimum_size = Vector2(150, 0)
 layout_mode = 2
 
-[node name="sc" type="Label" parent="bars/sc/MarginContainer2"]
+[node name="sc" type="Label" parent="Debug/bars/sc/MarginContainer2"]
 layout_mode = 2
 text = "sc"
 
-[node name="progress_marign" type="MarginContainer" parent="bars/sc"]
+[node name="progress_marign" type="MarginContainer" parent="Debug/bars/sc"]
 custom_minimum_size = Vector2(500, 0)
 layout_mode = 2
 
-[node name="scbar" type="ProgressBar" parent="bars/sc/progress_marign"]
+[node name="scbar" type="ProgressBar" parent="Debug/bars/sc/progress_marign"]
 layout_mode = 2
 max_value = 1.0
 
-[node name="value_margin" type="MarginContainer" parent="bars/sc"]
+[node name="value_margin" type="MarginContainer" parent="Debug/bars/sc"]
 custom_minimum_size = Vector2(100, 0)
 layout_mode = 2
 
-[node name="value" type="Label" parent="bars/sc/value_margin"]
+[node name="value" type="Label" parent="Debug/bars/sc/value_margin"]
+layout_mode = 2
+
+[node name="rolloff" type="HBoxContainer" parent="Debug/bars"]
+layout_mode = 2
+
+[node name="MarginContainer2" type="MarginContainer" parent="Debug/bars/rolloff"]
+custom_minimum_size = Vector2(150, 0)
+layout_mode = 2
+
+[node name="sc" type="Label" parent="Debug/bars/rolloff/MarginContainer2"]
+layout_mode = 2
+text = "rolloff"
+
+[node name="progress_marign" type="MarginContainer" parent="Debug/bars/rolloff"]
+custom_minimum_size = Vector2(500, 0)
+layout_mode = 2
+
+[node name="robar" type="ProgressBar" parent="Debug/bars/rolloff/progress_marign"]
+layout_mode = 2
+max_value = 1.0
+
+[node name="value_margin" type="MarginContainer" parent="Debug/bars/rolloff"]
+custom_minimum_size = Vector2(100, 0)
+layout_mode = 2
+
+[node name="value" type="Label" parent="Debug/bars/rolloff/value_margin"]
+layout_mode = 2
+
+[node name="tv" type="HBoxContainer" parent="Debug/bars"]
+layout_mode = 2
+
+[node name="MarginContainer2" type="MarginContainer" parent="Debug/bars/tv"]
+custom_minimum_size = Vector2(150, 0)
+layout_mode = 2
+
+[node name="sc" type="Label" parent="Debug/bars/tv/MarginContainer2"]
+layout_mode = 2
+text = "tv"
+
+[node name="progress_marign" type="MarginContainer" parent="Debug/bars/tv"]
+custom_minimum_size = Vector2(500, 0)
+layout_mode = 2
+
+[node name="tvbar" type="ProgressBar" parent="Debug/bars/tv/progress_marign"]
+layout_mode = 2
+max_value = 1.0
+
+[node name="value_margin" type="MarginContainer" parent="Debug/bars/tv"]
+custom_minimum_size = Vector2(100, 0)
+layout_mode = 2
+
+[node name="value" type="Label" parent="Debug/bars/tv/value_margin"]
 layout_mode = 2
