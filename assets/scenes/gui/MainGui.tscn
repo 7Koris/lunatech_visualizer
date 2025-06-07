@@ -58,7 +58,7 @@ size_flags_vertical = 0
 [node name="ctl4" type="Control" parent="VBoxContainer/TabContainer/Settings/VBoxContainer/Server Settings Label"]
 layout_mode = 2
 
-[node name="Label3" type="Label" parent="VBoxContainer/TabContainer/Settings/VBoxContainer/Server Settings Label"]
+[node name="Server Settings Label" type="Label" parent="VBoxContainer/TabContainer/Settings/VBoxContainer/Server Settings Label"]
 layout_mode = 2
 size_flags_horizontal = 4
 size_flags_vertical = 0
@@ -88,13 +88,32 @@ layout_mode = 2
 layout_mode = 2
 columns = 3
 
+[node name="Gain Label" type="Label" parent="VBoxContainer/TabContainer/Settings/VBoxContainer/Server Settings/Server Settings"]
+layout_mode = 2
+size_flags_horizontal = 0
+text = "Gain"
+
+[node name="Gain Slider" type="HSlider" parent="VBoxContainer/TabContainer/Settings/VBoxContainer/Server Settings/Server Settings"]
+custom_minimum_size = Vector2(200, 0)
+layout_mode = 2
+size_flags_horizontal = 0
+size_flags_vertical = 4
+min_value = -50.0
+max_value = 50.0
+
+[node name="dB Label" type="Label" parent="VBoxContainer/TabContainer/Settings/VBoxContainer/Server Settings/Server Settings"]
+layout_mode = 2
+size_flags_horizontal = 4
+text = "0.0 db"
+vertical_alignment = 1
+
 [node name="Label4" type="Label" parent="VBoxContainer/TabContainer/Settings/VBoxContainer/Server Settings/Server Settings"]
 layout_mode = 2
 text = "Port Number"
 
 [node name="port" type="LineEdit" parent="VBoxContainer/TabContainer/Settings/VBoxContainer/Server Settings/Server Settings"]
 layout_mode = 2
-size_flags_horizontal = 4
+size_flags_horizontal = 0
 size_flags_vertical = 4
 text = "3000"
 
@@ -278,6 +297,7 @@ stretch_mode = 2
 
 [node name="SceneSwitcher" type="Timer" parent="."]
 
+[connection signal="value_changed" from="VBoxContainer/TabContainer/Settings/VBoxContainer/Server Settings/Server Settings/Gain Slider" to="." method="_on_gain_slider_value_changed"]
 [connection signal="text_changed" from="VBoxContainer/TabContainer/Settings/VBoxContainer/Server Settings/Server Settings/port" to="." method="_on_port_text_changed"]
 [connection signal="toggled" from="VBoxContainer/TabContainer/Settings/VBoxContainer/Server Settings/Server Settings/Hbox2/MarginContainer/CheckBox" to="." method="_input_mode_toggled"]
 [connection signal="text_changed" from="VBoxContainer/TabContainer/Settings/VBoxContainer/Visualization Settings/Visualization Settings/SceneChangeDelay" to="." method="_on_scene_change_delay_text_changed"]

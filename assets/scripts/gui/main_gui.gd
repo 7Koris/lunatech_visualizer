@@ -6,6 +6,7 @@ extends Control
 @onready var online = preload("res://assets/sprites/Online.tres")
 @onready var offline = preload("res://assets/sprites/Offline.tres")
 @onready var server_status = $HBoxContainer/StatusTexture
+@onready var db_label = $"VBoxContainer/TabContainer/Settings/VBoxContainer/Server Settings/Server Settings/dB Label"
 @onready var port_error = $"VBoxContainer/TabContainer/Settings/VBoxContainer/Server Settings/Server Settings/PortError"
 @onready var variance_error = $"VBoxContainer/TabContainer/Settings/VBoxContainer/Visualization Settings/Visualization Settings/VarianceError"
 @onready var delay_error = $"VBoxContainer/TabContainer/Settings/VBoxContainer/Visualization Settings/Visualization Settings/DelayError"
@@ -18,6 +19,7 @@ var sv_path = ProjectSettings.globalize_path("res://bin/supervisor")
 var server_pid: int
 var platform: String
 
+var gain = 0.0
 var port = 3000
 var input_mode = false
 var scene_change_delay = 20.0
@@ -48,7 +50,7 @@ func _process(delta: float) -> void:
 		clean_zombie()
 		p_accum = 0
 		if is_server_running():
-			pass
+			server_status.texture = online
 		else:
 			restart_server()
 
@@ -116,7 +118,7 @@ func launch_bin():
 	var args = []
 	match platform:
 		"Linux":
-			args = ["-p", port, "-H"]
+			args = ["-p", port, "-H", "-g", gain]
 			if input_mode:
 				args.append("-I")
 		"Windows":
@@ -220,6 +222,10 @@ func _input_mode_toggled(toggled_on: bool) -> void:
 	input_mode = toggled_on
 	restart_server()
 
+func _on_gain_slider_value_changed(value: float) -> void:
+	db_label.text = str(value) + " dB"
+	gain = value
+	restart_server()
 
 func _on_scene_switcher_timeout() -> void:
 	if visual_display_instance != null:
