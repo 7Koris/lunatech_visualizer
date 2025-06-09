@@ -1,7 +1,7 @@
 extends Control
 
 const VISUALIZER_PCK_PATH = "user://visualizers"
-const VISUALIZER_SCENE_PATH = "res://assets/scenes/vis_scenes/"
+const VISUALIZER_SCENE_PATH = "res://assets/scenes/visualizers/"
 
 @onready var visual_display = preload("res://assets/scenes/VisualDisplay.tscn")
 @onready var empty_scene_entry = preload("res://assets/scenes/gui/SceneEntry.tscn")
