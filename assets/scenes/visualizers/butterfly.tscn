@@ -1,0 +1,122 @@
+[gd_scene load_steps=5 format=3 uid="uid://bvjtqeoq3qeaj"]
+
+[ext_resource type="PackedScene" uid="uid://n7emof5fsokh" path="res://assets/scenes/butterfly_cursor.tscn" id="1_h37pd"]
+
+[sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_if1e0"]
+sky_top_color = Color(0, 0, 0, 1)
+sky_horizon_color = Color(0, 0, 0, 1)
+ground_bottom_color = Color(0, 0, 0, 1)
+ground_horizon_color = Color(0, 0, 0, 1)
+
+[sub_resource type="Sky" id="Sky_tkon3"]
+sky_material = SubResource("ProceduralSkyMaterial_if1e0")
+
+[sub_resource type="Environment" id="Environment_goplo"]
+background_mode = 2
+sky = SubResource("Sky_tkon3")
+tonemap_mode = 2
+glow_enabled = true
+
+[node name="Butterfly" type="Node3D"]
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("Environment_goplo")
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
+transform = Transform3D(-0.866023, -0.433016, 0.250001, 0, 0.499998, 0.866027, -0.500003, 0.749999, -0.43301, 0, 0, 0)
+visible = false
+shadow_enabled = true
+
+[node name="cursor" parent="." instance=ExtResource("1_h37pd")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.87936, 2.66119, 17.9243)
+
+[node name="cursor2" parent="." instance=ExtResource("1_h37pd")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.87936, 2.66119, 17.9243)
+
+[node name="cursor3" parent="." instance=ExtResource("1_h37pd")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.87936, 2.66119, 17.9243)
+
+[node name="cursor4" parent="." instance=ExtResource("1_h37pd")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.87936, 2.66119, 17.9243)
+
+[node name="cursor5" parent="." instance=ExtResource("1_h37pd")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.87936, 2.66119, 17.9243)
+
+[node name="cursor6" parent="." instance=ExtResource("1_h37pd")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.87936, 2.66119, 17.9243)
+
+[node name="cursor7" parent="." instance=ExtResource("1_h37pd")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.87936, 2.66119, 17.9243)
+
+[node name="cursor8" parent="." instance=ExtResource("1_h37pd")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.87936, 2.66119, 17.9243)
+
+[node name="cursor9" parent="." instance=ExtResource("1_h37pd")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.87936, 2.66119, 17.9243)
+
+[node name="cursor10" parent="." instance=ExtResource("1_h37pd")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.87936, 2.66119, 17.9243)
+
+[node name="cursor11" parent="." instance=ExtResource("1_h37pd")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.87936, 2.66119, 17.9243)
+
+[node name="cursor12" parent="." instance=ExtResource("1_h37pd")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.87936, 2.66119, 17.9243)
+
+[node name="cursor13" parent="." instance=ExtResource("1_h37pd")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.87936, 2.66119, 17.9243)
+
+[node name="cursor14" parent="." instance=ExtResource("1_h37pd")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.87936, 2.66119, 17.9243)
+
+[node name="cursor15" parent="." instance=ExtResource("1_h37pd")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.87936, 2.66119, 17.9243)
+
+[node name="cursor16" parent="." instance=ExtResource("1_h37pd")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.87936, 2.66119, 17.9243)
+
+[node name="cursor17" parent="." instance=ExtResource("1_h37pd")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.87936, 2.66119, 17.9243)
+
+[node name="cursor18" parent="." instance=ExtResource("1_h37pd")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.87936, 2.66119, 17.9243)
+
+[node name="cursor19" parent="." instance=ExtResource("1_h37pd")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.87936, 2.66119, 17.9243)
+
+[node name="cursor20" parent="." instance=ExtResource("1_h37pd")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.87936, 2.66119, 17.9243)
+
+[node name="cursor21" parent="." instance=ExtResource("1_h37pd")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.87936, 2.66119, 17.9243)
+
+[node name="cursor22" parent="." instance=ExtResource("1_h37pd")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.87936, 2.66119, 17.9243)
+
+[node name="cursor23" parent="." instance=ExtResource("1_h37pd")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.87936, 2.66119, 17.9243)
+
+[node name="cursor24" parent="." instance=ExtResource("1_h37pd")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.87936, 2.66119, 17.9243)
+
+[node name="cursor25" parent="." instance=ExtResource("1_h37pd")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.87936, 2.66119, 17.9243)
+
+[node name="cursor26" parent="." instance=ExtResource("1_h37pd")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.87936, 2.66119, 17.9243)
+
+[node name="cursor27" parent="." instance=ExtResource("1_h37pd")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.87936, 2.66119, 17.9243)
+
+[node name="cursor28" parent="." instance=ExtResource("1_h37pd")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.87936, 2.66119, 17.9243)
+
+[node name="cursor29" parent="." instance=ExtResource("1_h37pd")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.87936, 2.66119, 17.9243)
+
+[node name="cursor30" parent="." instance=ExtResource("1_h37pd")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.87936, 2.66119, 17.9243)
+
+[node name="Camera3D" type="Camera3D" parent="."]
+transform = Transform3D(-0.432558, -0.063301, 0.899381, -0.901606, 0.0303695, -0.431491, 4.36035e-08, -0.997532, -0.0702092, 27.3703, -9.31404, 24.0568)
+fov = 90.0
