@@ -1,0 +1,88 @@
+[gd_scene load_steps=12 format=3 uid="uid://ct5yyqk1liqrx"]
+
+[ext_resource type="Script" uid="uid://cf42n2wrki444" path="res://assets/scripts/temp/moon.gd" id="1_5eoll"]
+[ext_resource type="Shader" uid="uid://cxw7i2y3cp4l4" path="res://assets/shaders/moon_pulse.gdshader" id="2_h5326"]
+[ext_resource type="Texture2D" uid="uid://do0rkkqq5q3jv" path="res://assets/sprites/moon_false_color.png" id="3_ooucb"]
+[ext_resource type="Texture2D" uid="uid://c78e486q7tvub" path="res://assets/sprites/ldem_64.jpg" id="4_yall3"]
+[ext_resource type="Shader" uid="uid://dgucvasl2ncle" path="res://assets/shaders/moon.gdshader" id="5_q55no"]
+
+[sub_resource type="Sky" id="Sky_xh7bh"]
+
+[sub_resource type="Environment" id="Environment_qi3mi"]
+background_mode = 2
+background_canvas_max_layer = 1
+sky = SubResource("Sky_xh7bh")
+tonemap_mode = 2
+glow_enabled = true
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_ujo5x"]
+render_priority = 0
+shader = ExtResource("2_h5326")
+shader_parameter/_a = ExtResource("3_ooucb")
+shader_parameter/heightmap = ExtResource("4_yall3")
+shader_parameter/height_ratio = 0.17
+shader_parameter/start = 0.545
+shader_parameter/end = 0.55
+shader_parameter/ox = 0.0
+shader_parameter/oy = 0.0
+shader_parameter/spin_speed = 1.285
+shader_parameter/time = 0.0
+shader_parameter/ring_mult = 0.0
+shader_parameter/ring_color = Color(1, 1, 1, 1)
+shader_parameter/ring_frequency = 10.0
+shader_parameter/ring_portion = 4.266
+shader_parameter/move_speed = -9.344
+shader_parameter/smooth_edge = false
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_phsbv"]
+size = Vector2(4, 2)
+subdivide_width = 256
+subdivide_depth = 256
+
+[sub_resource type="GDScript" id="GDScript_ni5us"]
+script/source = "extends MeshInstance3D
+
+@export var chunk_size = 2.0
+@export var height_ratio = 1.0
+
+var data = \"res://assets/sprites/ldem_64.tif\"
+"
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_xh7bh"]
+render_priority = 0
+shader = ExtResource("5_q55no")
+shader_parameter/_a = ExtResource("4_yall3")
+shader_parameter/heightmap = ExtResource("4_yall3")
+shader_parameter/height_ratio = 0.17
+shader_parameter/start = 0.545
+shader_parameter/end = 0.55
+shader_parameter/ox = 0.0
+shader_parameter/oy = 0.0
+shader_parameter/spin_speed = 1.285
+shader_parameter/time = 0.0
+shader_parameter/color = Color(0.883032, 0.677907, 0.468592, 1)
+shader_parameter/custom_color = Color(1, 0, 0, 1)
+
+[node name="moon" type="Node3D"]
+script = ExtResource("1_5eoll")
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
+transform = Transform3D(-0.866023, -0.433016, 0.250001, 0, 0.499998, 0.866027, -0.500003, 0.749999, -0.43301, 0, 0, 0)
+shadow_enabled = true
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("Environment_qi3mi")
+
+[node name="ScanLayer" type="MeshInstance3D" parent="."]
+material_override = SubResource("ShaderMaterial_ujo5x")
+mesh = SubResource("PlaneMesh_phsbv")
+script = SubResource("GDScript_ni5us")
+
+[node name="WireLayer" type="MeshInstance3D" parent="."]
+material_override = SubResource("ShaderMaterial_xh7bh")
+mesh = SubResource("PlaneMesh_phsbv")
+script = SubResource("GDScript_ni5us")
+
+[node name="Camera3D" type="Camera3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 0.562069, 0.82709, 0, -0.82709, 0.562069, 0, 0.550196, 0.537074)
+current = true
