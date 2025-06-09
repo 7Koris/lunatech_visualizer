@@ -1,6 +1,6 @@
 [gd_scene load_steps=12 format=3 uid="uid://ct5yyqk1liqrx"]
 
-[ext_resource type="Script" uid="uid://cf42n2wrki444" path="res://assets/scripts/temp/moon.gd" id="1_5eoll"]
+[ext_resource type="Script" uid="uid://cf42n2wrki444" path="res://assets/scripts/moon.gd" id="1_5eoll"]
 [ext_resource type="Shader" uid="uid://cxw7i2y3cp4l4" path="res://assets/shaders/moon_pulse.gdshader" id="2_h5326"]
 [ext_resource type="Texture2D" uid="uid://do0rkkqq5q3jv" path="res://assets/sprites/moon_false_color.png" id="3_ooucb"]
 [ext_resource type="Texture2D" uid="uid://c78e486q7tvub" path="res://assets/sprites/ldem_64.jpg" id="4_yall3"]
