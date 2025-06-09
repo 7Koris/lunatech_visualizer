@@ -1,5 +1,8 @@
 extends Control
 
+const VISUALIZER_PCK_PATH = "user://visualizers"
+const VISUALIZER_SCENE_PATH = "res://assets/scenes/vis_scenes/"
+
 @onready var visual_display = preload("res://assets/scenes/VisualDisplay.tscn")
 @onready var empty_scene_entry = preload("res://assets/scenes/gui/SceneEntry.tscn")
 @onready var scene_list = $"VBoxContainer/TabContainer/Scene Select/MarginContainer3/VBoxContainer/ScrollContainer/SceneList"
@@ -55,7 +58,7 @@ func _process(delta: float) -> void:
 			restart_server()
 
 
-func start() -> void:	
+func start() -> void:
 	platform = OS.get_name()
 	# TODO: Windows support
 	if platform != "Linux":
@@ -140,6 +143,7 @@ func clean_zombie():
 	for pid in pids:
 		OS.is_process_running(pid.to_int())
 
+
 func _on_entry_toggled(scene, toggled_on):
 	checkbox_state[scene] = toggled_on
 	if not toggled_on:
@@ -149,20 +153,22 @@ func _on_entry_toggled(scene, toggled_on):
 		if scenes.has(scene):
 			pass
 		else:
-			var new_scene = load("res://assets/scenes/vis_scenes/" + scene)
+			var new_scene = load(VISUALIZER_SCENE_PATH + scene.get_basename() + ".tscn")
 			scenes[scene] = new_scene
 
 
 func _reset_scene_entries():
 	for scene_entry in scene_list.get_children():
 		scene_entry.queue_free()
-	dir = DirAccess.open("res://assets/scenes/vis_scenes/")
+	dir = DirAccess.open(VISUALIZER_PCK_PATH)
 	dir.list_dir_begin()
 	while (true):
 		var file = dir.get_next()
 		if file == "":
 			break
-		elif file.get_extension() == "tscn":
+		elif file.get_extension() == "pck":
+			var success = ProjectSettings.load_resource_pack(VISUALIZER_PCK_PATH + "/" + file)
+			
 			var new_scene_entry: SceneEntry = empty_scene_entry.instantiate()
 			new_scene_entry.get_label().text = file
 			new_scene_entry.connect("SceneEntryToggled", _on_entry_toggled)
@@ -178,7 +184,7 @@ func _reset_scene_entries():
 			if scenes.has(file):
 				pass
 			else:
-				var new_scene = load("res://assets/scenes/vis_scenes/" + file)
+				var new_scene = load(VISUALIZER_SCENE_PATH + file.get_basename() + ".tscn")
 				scenes[file] = new_scene
 
 func _fullscreen_toggled(toggled_on: bool) -> void:
