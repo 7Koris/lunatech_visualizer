@@ -33,31 +33,31 @@ script/source = "extends CenterContainer
 
 func _process(_delta):
 	rms_bar.value = OscClient.rms
-	rms_val.text = str(OscClient.rms)
+	rms_val.text = str(\"%0.8f\" % OscClient.rms)
 	
 	low_rms_bar.value = OscClient.bass
-	low_rms_val.text = str(OscClient.bass)
+	low_rms_val.text = str(\"%0.8f\" % OscClient.bass)
 	
 	mid_rms_bar.value = OscClient.mid
-	mid_rms_val.text = str(OscClient.mid)
+	mid_rms_val.text = str(\"%0.8f\" % OscClient.mid)
 	
 	high_rms_bar.value = OscClient.treble
-	high_rms_val.text = str(OscClient.treble)
+	high_rms_val.text = str(\"%0.8f\" % OscClient.treble)
 	
 	zcr_bar.value = OscClient.zcr
-	zcr_val.text = str(OscClient.zcr)
+	zcr_val.text = str(\"%0.8f\" % OscClient.zcr)
 	
 	flux_bar.value = OscClient.flux
-	flux_val.text = str(OscClient.flux)
+	flux_val.text = str(\"%0.8f\" % OscClient.flux)
 	
 	sc_bar.value = OscClient.centroid
-	sc_val.text = str(OscClient.centroid)
+	sc_val.text = str(\"%0.8f\" % OscClient.centroid)
 	
 	ro_bar.value = OscClient.rolloff
-	ro_val.text = str(OscClient.rolloff)
+	ro_val.text = str(\"%0.8f\" % OscClient.rolloff)
 	
 	tv_bar.value = OscClient.tv
-	tv_val.text = str(OscClient.tv)
+	tv_val.text = str(\"%0.8f\" % OscClient.tv)
 "
 
 [node name="Control" type="Control"]
